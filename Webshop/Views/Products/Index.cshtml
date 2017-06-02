@@ -44,6 +44,10 @@
             @Html.DisplayNameFor(model => model.Supplier.Name)
         </th>
         <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -79,10 +83,23 @@
             @Html.DisplayFor(modelItem => item.Supplier.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID })
         </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id = item.ID })
+            
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+        </td>
+        <td>
+            <input type="number" name="Quantity"/>
+        </td>
+        <td>
+            @Html.ActionLink("Order Now", "OrderNow", "ShopBasket", new { id = item.ID }, null )
+        </td>
+
+
     </tr>
 }
 

@@ -21,6 +21,7 @@ namespace Webshop.Controllers
             return View(products.ToList());
         }
 
+
         // GET: Products/Details/5
         public ActionResult Details(int? id)
         {
