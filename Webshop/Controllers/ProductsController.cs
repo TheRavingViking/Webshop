@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Webshop.Classes;
 using Webshop.Models;
 
 namespace Webshop.Controllers
@@ -19,6 +20,40 @@ namespace Webshop.Controllers
         {
             var products = db.Products.Include(p => p.Category).Include(p => p.Supplier);
             return View(products.ToList());
+        }
+
+
+        [HttpPost]
+        public ActionResult AddToCart(int id, string quantity)
+        {
+            ShopCartItem item = new ShopCartItem();
+
+            item.ID = id;
+            item.Quantity = Int32.Parse(quantity);
+
+            if (Session["cart"] == null)
+            {
+                List<ShopCartItem> shopCart = new List<ShopCartItem>();
+
+                shopCart.Add(item);
+                
+                Session["cart"] = shopCart;
+                ViewBag.cart = shopCart.Count();
+                
+                Session["count"] = 1;
+
+
+            }
+            else
+            {
+                List<ShopCartItem> shopCart = (List<ShopCartItem>)Session["cart"];
+                shopCart.Add(item);
+                Session["cart"] = shopCart;
+                ViewBag.cart = shopCart.Count();
+                Session["count"] = Convert.ToInt32(Session["count"]) + 1;
+
+            }
+            return RedirectToAction("Index", "Home");
         }
 
 

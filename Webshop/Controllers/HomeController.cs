@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Webshop.Classes;
 
 namespace Webshop.Controllers
 {
@@ -10,6 +11,13 @@ namespace Webshop.Controllers
     {
         public ActionResult Index()
         {
+            var count = Session["count"];
+
+            if (Session["count"] == null)
+            ViewBag.ItemCount = "No items in cart yet";
+            else
+            ViewBag.ItemCount = count;
+
             return View();
         }
 

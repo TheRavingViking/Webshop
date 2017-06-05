@@ -7,7 +7,7 @@ using System.Web.WebPages;
 
 namespace Webshop.Controllers
 {
-    public class ShopBasketController : Controller
+    public class ShoppingCartController : Controller
     {
         // GET: ShopBasket
         public ActionResult Index()
@@ -15,10 +15,7 @@ namespace Webshop.Controllers
             return View();
         }
 
-        public ActionResult OrderNow(int id)
-        {
-            return Content(id.ToString());
-        }
+
 
     }
 }
