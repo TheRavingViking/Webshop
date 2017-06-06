@@ -40,11 +40,13 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+
+
+                    <form action="/Shoppingcart/EditQuantity" method="post">
+                        <input type="number" value="@item.Quantity" name="Quantity" />
+                        <input type="hidden" value="@item.ID" name="ID"/>
+                        <input type="submit" value="Save"/>
+                    </form>
                 </td>
 
                 <td>

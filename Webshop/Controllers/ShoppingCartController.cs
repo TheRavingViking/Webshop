@@ -80,6 +80,22 @@ namespace Webshop.Controllers
 
             ShoppingCartItems.Remove(item);
 
+            Session["count"] = Convert.ToInt32(Session["count"]) - 1;
+
+            return RedirectToAction("Index", "ShoppingCart");
+        }
+
+        [HttpPost]
+        public ActionResult EditQuantity(int id, string quantity)
+        {
+            List<OrderDetail> ShoppingCartItems = (List<OrderDetail>)Session["cart"];
+
+            var item = (from items in ShoppingCartItems
+                where items.ProductID == id
+                select items).FirstOrDefault();
+
+            item.Quantity = Int32.Parse(quantity);
+            
             return RedirectToAction("Index", "ShoppingCart");
         }
 
