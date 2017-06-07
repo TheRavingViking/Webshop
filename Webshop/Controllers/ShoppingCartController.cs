@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Webshop.Classes;
 using Webshop.Models;
 
 namespace Webshop.Controllers
@@ -15,9 +16,10 @@ namespace Webshop.Controllers
         [Route("shoppingcart")]
         public ActionResult Index()
         {
-            if (Session["cart"] != null)
+            
+            if (SessionManager.CartList != null)
             {
-                List<OrderDetail> ShoppingCartItems = (List<OrderDetail>) Session["cart"];
+                List<OrderDetail> ShoppingCartItems = SessionManager.CartList;
 
                 List<Product> shopCart = new List<Product>();
 
@@ -32,9 +34,6 @@ namespace Webshop.Controllers
             else
                 ViewBag.NoItemsInCart = "No items in cart, add them first before ordering";
                 return View();
-
-
-
         }
 
 
@@ -46,22 +45,22 @@ namespace Webshop.Controllers
             item.ProductID = id;
             item.Quantity = Int32.Parse(quantity);
 
-            if (Session["cart"] == null)
+            if (SessionManager.CartList == null)
             {
                 List<OrderDetail> shopCart = new List<OrderDetail>();
 
                 shopCart.Add(item);
 
-                Session["cart"] = shopCart;
+                SessionManager.CartList = shopCart;
                 ViewBag.cart = shopCart.Count();
 
                 Session["count"] = 1;
             }
             else
             {
-                List<OrderDetail> shopCart = (List<OrderDetail>)Session["cart"];
+                List<OrderDetail> shopCart = SessionManager.CartList;
                 shopCart.Add(item);
-                Session["cart"] = shopCart;
+                SessionManager.CartList = shopCart;
                 ViewBag.cart = shopCart.Count();
                 Session["count"] = Convert.ToInt32(Session["count"]) + 1;
 
@@ -72,7 +71,7 @@ namespace Webshop.Controllers
         [HttpPost]
         public ActionResult RemoveFromCart(int id)
         {
-            List<OrderDetail> ShoppingCartItems = (List<OrderDetail>)Session["cart"];
+            List<OrderDetail> ShoppingCartItems = SessionManager.CartList;
 
             var item = (from items in ShoppingCartItems
                        where items.ProductID == id
@@ -88,7 +87,7 @@ namespace Webshop.Controllers
         [HttpPost]
         public ActionResult EditQuantity(int id, string quantity)
         {
-            List<OrderDetail> ShoppingCartItems = (List<OrderDetail>)Session["cart"];
+            List<OrderDetail> ShoppingCartItems = SessionManager.CartList;
 
             var item = (from items in ShoppingCartItems
                 where items.ProductID == id
