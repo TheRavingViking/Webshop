@@ -19,13 +19,13 @@ namespace Webshop.Controllers
             
             if (SessionManager.CartList != null)
             {
-                List<OrderDetail> ShoppingCartItems = SessionManager.CartList;
+                List<ShopCart> ShoppingCartItems = SessionManager.CartList;
 
                 List<Product> shopCart = new List<Product>();
 
-                foreach (OrderDetail Item in ShoppingCartItems)
+                foreach (ShopCart Item in ShoppingCartItems)
                 {
-                    var item = db.Products.Find(Item.ProductID);
+                    var item = db.Products.Find(Item.ID);
                     item.Quantity = Item.Quantity;
                     shopCart.Add(item);
                 }
@@ -40,57 +40,49 @@ namespace Webshop.Controllers
         [HttpPost]
         public ActionResult AddToCart(int id, string quantity)
         {
-            OrderDetail item = new OrderDetail();
+            ShopCart item = new ShopCart();
 
-            item.ProductID = id;
+            item.ID = id;
             item.Quantity = Int32.Parse(quantity);
 
             if (SessionManager.CartList == null)
             {
-                List<OrderDetail> shopCart = new List<OrderDetail>();
-
+                List<ShopCart> shopCart = new List<ShopCart>();
                 shopCart.Add(item);
-
                 SessionManager.CartList = shopCart;
                 ViewBag.cart = shopCart.Count();
-
                 Session["count"] = 1;
             }
             else
             {
-                List<OrderDetail> shopCart = SessionManager.CartList;
-                shopCart.Add(item);
-                SessionManager.CartList = shopCart;
-                ViewBag.cart = shopCart.Count();
-                Session["count"] = Convert.ToInt32(Session["count"]) + 1;
+                List<ShopCart> shopCart = SessionManager.CartList;
 
+                var product = shopCart.Find(c => c.ID == id);
+
+                if (product != null)
+                {
+                    product.Quantity += item.Quantity;
+                }
+                else
+                {
+                    shopCart.Add(item);
+                    ViewBag.cart = shopCart.Count();
+                    Session["count"] = Convert.ToInt32(Session["count"]) + 1;
+                }
+
+
+                SessionManager.CartList = shopCart;
             }
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
-        public ActionResult RemoveFromCart(int id)
-        {
-            List<OrderDetail> ShoppingCartItems = SessionManager.CartList;
-
-            var item = (from items in ShoppingCartItems
-                       where items.ProductID == id
-                       select items).FirstOrDefault();
-
-            ShoppingCartItems.Remove(item);
-
-            Session["count"] = Convert.ToInt32(Session["count"]) - 1;
-
-            return RedirectToAction("Index", "ShoppingCart");
-        }
-
-        [HttpPost]
         public ActionResult EditQuantity(int id, string quantity)
         {
-            List<OrderDetail> ShoppingCartItems = SessionManager.CartList;
+            List<ShopCart> ShoppingCartItems = SessionManager.CartList;
 
             var item = (from items in ShoppingCartItems
-                where items.ProductID == id
+                where items.ID == id
                 select items).FirstOrDefault();
 
             item.Quantity = Int32.Parse(quantity);
