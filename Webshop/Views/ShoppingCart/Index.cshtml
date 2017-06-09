@@ -73,14 +73,11 @@
 
     function DeleteItem() {
 
-        var id = $(this).val();
-
-
         $.ajax({
             url: 'api/ShopCartAPI/Delete',
             type: 'Get',
             contentType: 'application/json',
-            data: { id: $('#btnDel').val() },
+            data: { id: $('#btnDel.val()') },
             success: function () {
                 alert("Product removed");
                 location.reload();

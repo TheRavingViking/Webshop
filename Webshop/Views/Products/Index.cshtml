@@ -11,6 +11,31 @@
 </p>
 
 
+<h1> Sort by: </h1>
+<form action="/Products/Sort" method="post">
+
+    <select class="dropdown" id="sortBy" name="sortBy">
+        <option>Name</option>
+        <option>Price</option>
+        <option>Quantity</option>
+    </select>
+    <input type="submit" value="Go" />
+</form>
+
+<h1> Filter by category: </h1>
+<form action="/Products/Filter" method="post">
+
+    <select class="dropdown" id="filterBy" name="filterBy">
+       @foreach (var cat in ViewBag.Categories)
+       {
+        <option value="@cat.ID" >@cat.Name</option>
+       }
+
+    </select>
+    <input type="submit" value="Go" />
+</form>
+
+
 <table class="table">
     <tr>
         <th>
@@ -20,28 +45,16 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Weight)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Quantity)
         </th>
-        @*<th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.IsDeleted)
+            Category name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Supplier.Name)
+            Supplier name
         </th>
         <th></th>
         <th></th>
@@ -60,38 +73,16 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Weight)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Image)
-                </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Supplier.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.ID })
-
-            </td>
-            <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
             </td>
             <td>
 

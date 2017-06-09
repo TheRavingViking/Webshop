@@ -18,12 +18,7 @@ namespace Webshop.Controllers
         [Route("api/ShopCartAPI/Add")]
         public IHttpActionResult Add(int id)
         {
-
-
-
-
             return Ok();
-
         }
 
 

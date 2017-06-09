@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Webshop.Models;
 
 namespace Webshop.Controllers
@@ -18,7 +19,62 @@ namespace Webshop.Controllers
         public ActionResult Index()
         {
             var products = db.Products.Include(p => p.Category).Include(p => p.Supplier);
+
+            var category = db.Categories.Distinct();
+            ViewBag.Categories = category;
+
             return View(products.ToList());
+        }
+
+        public ActionResult Sort(string sortBy)
+        {
+            var products = db.Products.Include(p => p.Category).Include(p => p.Supplier);
+
+            switch (sortBy)
+            {
+                case "Name":
+                    products = (from items in db.Products
+                                orderby items.Name 
+                                select items).Include(p => p.Category).Include(p => p.Supplier);
+                    break;
+
+                case "Price":
+                    products = (from items in db.Products
+                                orderby items.Price
+                                select items).Include(p => p.Category).Include(p => p.Supplier);
+                    break;
+                case "Quantity":
+                    products = (from items in db.Products
+                                orderby items.Quantity
+                                select items).Include(p => p.Category).Include(p => p.Supplier);
+                    break;
+
+            }
+
+            var category = db.Categories.Distinct();
+            ViewBag.Categories = category;
+
+            return View("Index", products.ToList());
+
+        }
+
+        public ActionResult Filter(int filterBy)
+        {
+
+
+            var catID = db.Categories.Find(filterBy);
+
+
+            var products = (from items in db.Products
+                            where items.Category.ID == catID.ID
+                            select items).Include(p => p.Category).Include(p => p.Supplier);
+
+            var category = db.Categories.Distinct();
+            ViewBag.Categories = category;
+
+            return View("Index", products.ToList());
+
+
         }
 
         // GET: Products/Details/5
