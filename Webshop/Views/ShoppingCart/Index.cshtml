@@ -80,7 +80,7 @@
             url: 'api/ShopCartAPI/Delete',
             type: 'Get',
             contentType: 'application/json',
-            data: { id: id },
+            data: { id: $('#btnDel').val() },
             success: function () {
                 alert("Product removed");
                 location.reload();
