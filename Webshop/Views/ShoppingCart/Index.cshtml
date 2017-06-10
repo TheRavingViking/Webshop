@@ -40,17 +40,17 @@
                                          <h5 class="media-heading"> by <a href="#">@Html.DisplayFor(modelItem => item.ID)</a></h5>
                                      </div>
                                  </div></td>
-                             <td class="col-sm-1 col-md-1" style="text-align: center">
-                                 <input type="email" class="form-control" id="exampleInputEmail1" value="@item.Quantity">
+                             <td class="col-sm-1 col-md-1 rowQuantity" style="text-align: center">
+                                 <input type="text" class="form-control" id="@item.ID" value="@item.Quantity">
                              </td>
                              <td class="col-sm-1 col-md-1 text-center"><strong>@Html.DisplayFor(modelItem => item.Price)</strong></td>
-                             <td class="col-sm-1 col-md-1 text-center"><strong>@Html.DisplayFor(modelItem => item.Price)</strong></td>
+                             <td class="col-sm-1 col-md-1 text-center"><strong>@(Int32.Parse(item.Price) * item.Quantity)</strong></td>
                              <td class="col-sm-1 col-md-1">
-                                 <button type="button" class="btn btn-info" onclick=";" id="btnUpdate" value="@item.ID">
+                                 <button type="button" class="btn btn-info BtnUpd" onclick="updateItem(@item.ID)" id="btnUpdate">
                                      <span class="glyphicon glyphicon-adjust"></span> update
                                  </button>
 
-                                 <button type="button" class="btn btn-danger BtnDel" onclick="DeleteItem(@item.ID);" id="@item.ID" value="@item.ID">
+                                 <button type="button" class="btn btn-danger BtnDel" onclick="DeleteItem(@item.ID);">
                                      <span class="glyphicon glyphicon-remove"></span> Remove
                                  </button>
                              </td>
@@ -73,16 +73,23 @@
 
     function updateItem(id) {
 
+        var input = id;
+        var qty = $('#'+input).val();
 
+      $.ajax({
+            url: 'api/ShopCartAPI/UpdateQuantity',
+            type: 'Get',
+            contentType: 'application/json',
+            data: { id: id, qty: qty},
+            success: function () {
+                console.log(qty);
+                alert("Product updated");
+            }
+        });
 
     }
 
-
-
-
-
     function DeleteItem(id) {
-
 
         $.ajax({
             url: 'api/ShopCartAPI/Delete',

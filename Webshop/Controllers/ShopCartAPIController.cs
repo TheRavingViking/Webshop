@@ -15,9 +15,23 @@ namespace Webshop.Controllers
     public class ShopCartAPIController : ApiController
     {
         [HttpGet]
-        [Route("api/ShopCartAPI/Add")]
-        public IHttpActionResult Add(int id)
+        [Route("api/ShopCartAPI/UpdateQuantity")]
+        public IHttpActionResult UpdateQuantity(int id, int qty)
         {
+            List<ShopCart> shopCart = SessionManager.CartList;
+
+            var Item = shopCart.Find(c => c.ID == id);
+            shopCart.Remove(Item);
+
+            ShopCart newItem = new ShopCart();
+
+            newItem.ID = id;
+            newItem.Quantity = qty;
+
+            shopCart.Add(newItem);
+
+            SessionManager.CartList = shopCart;
+
             return Ok();
         }
 
