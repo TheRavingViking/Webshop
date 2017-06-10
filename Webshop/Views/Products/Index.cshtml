@@ -84,13 +84,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Supplier.Name)
             </td>
+            
             <td>
-
-                <form action="/Shoppingcart/AddToCart" method="post">
-                    <input type="number" value="1" name="Quantity" />
-                    <input type="hidden" value="@item.ID" name="ID" />
-                    <input type="submit" value="Save" />
-                </form>
+                <input type="number" id="@item.ID" value="1" name="Quantity" />
+            </td>
+            
+            <td> 
+                <button type="button" class="btn btn-danger" onclick="AddItem(@item.ID);">
+                    <span class="glyphicon glyphicon-plus-sign"></span> Remove
+                </button>
             </td>
 
 
@@ -98,3 +100,24 @@
     }
 
 </table>
+
+<script type="text/javascript">
+
+    function AddItem(id) {
+
+        var input = id;
+        var qty = $('#'+input).val();
+
+        $.ajax({
+            url: 'Products/AddToCart',
+            type: 'Get',
+            contentType: 'application/json',
+            data: { id: id, qty: qty },
+            success: function () {
+                alert("Product added");
+                
+            }
+        });
+    }
+
+</script>

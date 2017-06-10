@@ -35,7 +35,40 @@ namespace Webshop.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("Products/AddToCart")]
+        public IHttpActionResult AddToCart(int id, int qty)
+        {
+            ShopCart item = new ShopCart();
+            item.ID = id;
+            item.Quantity = qty;
 
+            if (SessionManager.CartList == null)
+            {
+                List<ShopCart> shopCart = new List<ShopCart>();
+                shopCart.Add(item);
+                SessionManager.CartList = shopCart;
+                SessionManager.count = 1;
+            }
+            else
+            {
+                List<ShopCart> shopCart = SessionManager.CartList;
+
+                var product = shopCart.Find(c => c.ID == id);
+
+                if (product != null)
+                {
+                    product.Quantity += item.Quantity;
+                }
+                else
+                {
+                    shopCart.Add(item);
+                    SessionManager.count = SessionManager.count + 1;
+                }
+            }
+
+            return Ok();
+        }
 
 
         [HttpGet]
@@ -49,7 +82,7 @@ namespace Webshop.Controllers
 
             SessionManager.CartList = shopCart;
 
-            HttpContext.Current.Session["count"] = Convert.ToInt32(HttpContext.Current.Session["count"]) - 1;
+            SessionManager.count = SessionManager.count - 1;
             
             return Ok();
 

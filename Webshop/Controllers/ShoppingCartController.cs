@@ -75,21 +75,6 @@ namespace Webshop.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-
-        [HttpPost]
-        public ActionResult EditQuantity(int id, string quantity)
-        {
-            List<ShopCart> ShoppingCartItems = SessionManager.CartList;
-
-            var item = (from items in ShoppingCartItems
-                where items.ID == id
-                select items).FirstOrDefault();
-
-            item.Quantity = Int32.Parse(quantity);
-            
-            return RedirectToAction("Index", "ShoppingCart");
-        }
-
-
+        
     }
 }

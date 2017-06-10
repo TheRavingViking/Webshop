@@ -14,6 +14,13 @@ namespace Webshop.Classes
             get { return HttpContext.Current.Session["cart"] as List<ShopCart>; }
             set { HttpContext.Current.Session["cart"] = value; }
         }
+
+        public static int count
+        {
+            get { return (int) HttpContext.Current.Session["count"]; }
+            set { HttpContext.Current.Session["count"] = value; }
+        }
+
     }
 
 }
