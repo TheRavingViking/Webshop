@@ -42,6 +42,7 @@ namespace Webshop.Controllers
             ShopCart item = new ShopCart();
             item.ID = id;
             item.Quantity = qty;
+            
 
             if (SessionManager.CartList == null)
             {
