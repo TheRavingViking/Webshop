@@ -4,95 +4,85 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="col-md-4 col-lg-4">
+                            <img class="img-responsive img-rounded" src="http://placegoat.com/350/350"/>
+                        </div>
+                        <div class="col-md-8">
+                            <h2>@Html.DisplayFor(model => model.Name) </h2>
+                            <p>@Html.DisplayFor(model => model.Description)</p>
+                            <h2>
+                                @Html.DisplayNameFor(model => model.Price):
+                                @Html.DisplayFor(model => model.Price)
+                            </h2>
+                            <ul>
+                                <li>
+                                    @Html.DisplayNameFor(model => model.Weight):
+                                    @Html.DisplayFor(model => model.Weight)
+                                </li>
+                                <li>
+                                    @Html.DisplayNameFor(model => model.Quantity):
+                                    @Html.DisplayFor(model => model.Quantity)
+                                </li>
+                                <li>
+                                    @Html.DisplayNameFor(model => model.Category.Name):
+                                    @Html.DisplayFor(model => model.Category.Name)
+                                </li>
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                                <li>
+                                    @Html.DisplayNameFor(model => model.Supplier.Name):
+                                    @Html.DisplayFor(model => model.Supplier.Name)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-2 col-md-2 col-lg-2">
+                            <button type="button" class="btn btn-default" onclick="location.href='@Request.UrlReferrer.ToString()'">
+                                <span class="glyphicon glyphicon-backward"></span> Back
+                            </button>
+                        </div>
+                        <div class="col-sm-2 col-md-2 col-lg-2">
+                            <input class="form-control" type="number" id="@ViewBag.ID" value="1" name="Quantity" />
+                        </div>
+                        <div class="col-sm-2 col-md-2 col-lg-2">
+                            <button type="button" class="btn btn-success" onclick="AddItem(@ViewBag.ID)">
+                                <span class="glyphicon glyphicon-plus-sign"></span> Add to cart
+                            </button>
+                        </div>
+                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Weight)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Weight)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-
-        @*<dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>*@
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Supplier.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Supplier.Name)
-        </dd>
-
-    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+<script type="text/javascript">
+
+    function AddItem(id) {
+
+        var input = id;
+        var qty = $('#' + input).val();
+
+        $.ajax({
+            url: '/AddToCart',
+            type: 'Get',
+            contentType: 'application/json',
+            data: { id: id, qty: qty },
+            success: function () {
+                alert("Product added");
+
+            }
+        });
+    }
+
+</script>

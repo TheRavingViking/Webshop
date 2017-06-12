@@ -20,7 +20,7 @@ namespace Webshop
                 httpControllerRouteHandler.SetValue(null,
                     new Lazy<HttpControllerRouteHandler>(() => new SessionHttpControllerRouteHandler(), true));
             }
-            
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

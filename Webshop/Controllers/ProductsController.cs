@@ -89,6 +89,7 @@ namespace Webshop.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ID = id;
             return View(product);
         }
 

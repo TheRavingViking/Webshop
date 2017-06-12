@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,35 +15,17 @@ namespace Webshop.Controllers
 {
     public class ShopCartAPIController : ApiController
     {
-        [HttpGet]
-        [Route("api/ShopCartAPI/UpdateQuantity")]
-        public IHttpActionResult UpdateQuantity(int id, int qty)
-        {
-            List<ShopCart> shopCart = SessionManager.CartList;
+        private ShopEntities db = new ShopEntities();
 
-            var Item = shopCart.Find(c => c.ID == id);
-            shopCart.Remove(Item);
-
-            ShopCart newItem = new ShopCart();
-
-            newItem.ID = id;
-            newItem.Quantity = qty;
-
-            shopCart.Add(newItem);
-
-            SessionManager.CartList = shopCart;
-
-            return Ok();
-        }
 
         [HttpGet]
-        [Route("Products/AddToCart")]
+        [Route("AddToCart")]
         public IHttpActionResult AddToCart(int id, int qty)
         {
             ShopCart item = new ShopCart();
             item.ID = id;
             item.Quantity = qty;
-            
+
 
             if (SessionManager.CartList == null)
             {
@@ -73,7 +56,7 @@ namespace Webshop.Controllers
 
 
         [HttpGet]
-        [Route("api/ShopCartAPI/Delete")]
+        [Route("Delete")]
         public IHttpActionResult Delete(int id)
         {
             List<ShopCart> shopCart = SessionManager.CartList;
@@ -84,9 +67,31 @@ namespace Webshop.Controllers
             SessionManager.CartList = shopCart;
 
             SessionManager.count = SessionManager.count - 1;
-            
+
             return Ok();
 
+        }
+
+
+        [HttpGet]
+        [Route("UpdateQuantity")]
+        public IHttpActionResult UpdateQuantity(int id, int qty)
+        {
+            List<ShopCart> shopCart = SessionManager.CartList;
+
+            var Item = shopCart.Find(c => c.ID == id);
+            shopCart.Remove(Item);
+
+            ShopCart newItem = new ShopCart();
+
+            newItem.ID = id;
+            newItem.Quantity = qty;
+
+            shopCart.Add(newItem);
+
+            SessionManager.CartList = shopCart;
+
+            return Ok();
         }
     }
 }

@@ -36,80 +36,70 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <table class="table table-hover">
+                <table class="table table-hover" style="margin-top: 2em">
                     <thead>
                         <tr>
                             <th>Product</th>
                             <th>Quantity</th>
                             <th class="text-center">Price</th>
                             <th class="text-center">Total</th>
-                            <th> </th>
+                            <th> </th>
+                            <th> </th>
                         </tr>
                     </thead>
                     <tbody>
 
                         @foreach (var item in Model)
                         {
-                            <tr id="ProductRow + @item.ID">
-                                <td class="col-sm-8 col-md-6">
-                                    <div class="media">
-                                        <a class="thumbnail pull-left" href="#"> <img class="media-object" src="" style="width: 72px; height: 72px;"> </a>
-                                        <div class="media-body">
-                                            <h4 class="media-heading"><a href="#"> @Html.DisplayFor(modelItem => item.Name) </a></h4>
-                                            <h5 class="media-heading"> by <a href="#">@Html.DisplayFor(modelItem => item.ID)</a></h5>
-                                        </div>
+                            <tr id="ProductRow+@item.ID">
+                                <td class="col-sm-4 col-md-4 col-lg-4">
+                                    <a class="pull-left" href="Products/Details/@item.ID"> <img class="img-thumbnail" src="http://placegoat.com/72/72" style="width: 100px; height: 100px;"> </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading" style="padding-left: 15px"><a href="Products/Details/@item.ID"> @Html.DisplayFor(modelItem => item.Name) </a></h4>
+                                        <h5 class="media-heading" style="padding-left: 15px"> ID @Html.DisplayFor(modelItem => item.ID)</h5>
                                     </div>
+
                                 </td>
-                                <td style="text-align: center">
+                                <td class="col-sm-1 col-md-1 col-lg-1" style="text-align: center">
                                     <input type="text" class="form-control" id="@item.ID" value="@item.Quantity">
                                 </td>
-                                <td class="text-center"><strong>@Html.DisplayFor(modelItem => item.Price)</strong></td>
-                                <td class="text-center"><strong>@(Int32.Parse(item.Price) * item.Quantity)</strong></td>
-                                <td class="col-sm-1 col-md-1 col-lg-2">
-                                    <div class="row">
-                                        <button type="button" class="btn btn-info BtnUpd" onclick="updateItem(@item.ID)" id="btnUpdate">
-                                            <span class="glyphicon glyphicon-edit"></span> update
-                                        </button>
-
-                                        <button type="button" class="btn btn-danger BtnDel" onclick="DeleteItem(@item.ID);">
-                                            <span class="glyphicon glyphicon-remove"></span> Remove
-                                        </button>
-                                    </div>
+                                <td class="text-center col-sm-1 col-md-1 col-lg-1 "><strong>€ @Html.DisplayFor(modelItem => item.Price)</strong></td>
+                                <td class="text-center col-sm-1 col-md-1 col-lg-1"><strong>€ @(Int32.Parse(item.Price) * item.Quantity)</strong></td>
+                                <td class="col-sm-2 col-md-2 col-lg-1">
+                                    <button type="button" class="btn btn-info BtnUpd" onclick="updateItem(@item.ID)" id="btnUpdate">
+                                        <span class="glyphicon glyphicon-edit"></span> update
+                                    </button>
                                 </td>
+                                <td class="col-sm-2 col-md-2 col-lg-1">
+                                    <button type="button" class="btn btn-danger BtnDel" onclick="DeleteItem(@item.ID);">
+                                        <span class="glyphicon glyphicon-remove"></span> Remove
+                                    </button>
+                                </td>
+
                             </tr>
                         }
 
                     </tbody>
 
-
                 </table>
 
-                <hr />
-                <div class="row">
+                <div class="pull-right">
+                    <h3 class="text-right">
+                        Total: € @ViewBag.total
+                    </h3>
 
-                    <div class="pull-right">
-                        <h3 class="text-right">
-                            Total: $ @ViewBag.total
-                        </h3>
+                    <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Products")'">
+                        <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                    </button>
 
-                        <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Products")'">
-                            <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
-                        </button>
+                    <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create", "Orders")'">
+                        Checkout <span class="glyphicon glyphicon-play"></span>
+                    </button>
 
-                        <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create", "Orders")'">
-                            Checkout <span class="glyphicon glyphicon-play"></span>
-                        </button>
-
-
-
-
-                    </div>
                 </div>
-
             </div>
         </div>
     </div>
-
 }
 
 
@@ -124,7 +114,7 @@
         var qty = $('#' + input).val();
 
         $.ajax({
-            url: 'api/ShopCartAPI/UpdateQuantity',
+            url: '/UpdateQuantity',
             type: 'Get',
             contentType: 'application/json',
             data: { id: id, qty: qty },
@@ -138,14 +128,17 @@
 
     function DeleteItem(id) {
 
+        var input = id;
+
         $.ajax({
-            url: 'api/ShopCartAPI/Delete',
+            url: '/Delete',
             type: 'Get',
             contentType: 'application/json',
             data: { id: id },
             success: function () {
                 location.reload();
                 alert("Product removed");
+
             }
         });
     }

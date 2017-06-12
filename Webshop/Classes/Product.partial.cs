@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-//make sure the namespace is equal to the other partial class ItemRequest
 namespace Webshop.Models
 {
     [MetadataType(typeof(ProductMetaData))]
