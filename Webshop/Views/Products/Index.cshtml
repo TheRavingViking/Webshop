@@ -4,30 +4,46 @@
     ViewBag.Title = "Index";
 }
 
-<h4> Sort by: </h4>
 
-<form class="form-horizontal" action="/Products/Sort" method="post">
-    <select class="dropdown form-control" id="sortBy" name="sortBy">
-        <option>Name</option>
-        <option>Price</option>
-        <option>Quantity</option>
-    </select>
-    <input class="btn btn-default" type="submit" value="Go" />
-</form>
+<div class="container" style="margin-top: 2em;">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
 
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <form action="/Products/Sort" method="post">
+                    <div class="form-group">
+                        <label for="sortBy">Sort</label>
+                        <select class="form-control" id="sortBy" name="sortBy">
+                            <option>Name</option>
+                            <option>Price</option>
+                            <option>Quantity</option>
+                        </select>
+                    </div>
+                    <input class="btn btn-default" type="submit" value="Go" />
 
-<h4> Filter by category: </h4>
-<form action="/Products/Filter" method="post">
+                </form>
+            </div>
 
-    <select class="dropdown" id="filterBy" name="filterBy">
-        @foreach (var cat in ViewBag.Categories)
-        {
-            <option value="@cat.ID">@cat.Name</option>
-        }
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <form action="/Products/Filter" method="post">
+                    <div class="form-group">
+                        <label for="filterBy">Filter</label>
+                        <select class="form-control" id="filterBy" name="filterBy">
+                            @foreach (var cat in ViewBag.Categories)
+                            {
+                                <option value="@cat.ID">@cat.Name</option>
+                            }
 
-    </select>
-    <input type="submit" value="Go" />
-</form>
+                        </select>
+                    </div>
+                    <input class="btn btn-default" type="submit" value="Go" />
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 <div class="container">
@@ -80,7 +96,7 @@
 </div>
 
 
-<div id="bikes" ></div>
+<div id="bikes"></div>
 
 <script type="text/javascript">
 
@@ -96,6 +112,7 @@
             data: { id: id, qty: qty },
             success: function () {
                 alert("Product added");
+                location.reload();
 
             }
         });
