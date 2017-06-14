@@ -17,6 +17,20 @@ namespace Webshop.Controllers
     {
         private ShopEntities db = new ShopEntities();
 
+        /*
+          Reden gebruik sessions in webapi:
+
+            Voordat de mail van erwin kwam had ik alles al gemaakt met sessions in de webapi. 
+            daarnaast wil ik niet mijn database aanpassen omdat deze hetzelfde is als de eerste opdracht, nu kan ik allebei de applicaties gebruiken voor dezelfde applicatie.
+
+            Ook heb ik veel research moeten doen naar een oplossing om sessions te gebruiken in webservices. ik kwam uiteindelijk op deze oplossing:
+
+            http://www.wiliam.com.au/wiliam-blog/enabling-session-state-in-web-api
+            
+       */
+
+
+
 
         [HttpGet]
         [Route("AddToCart")]

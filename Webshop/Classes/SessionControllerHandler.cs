@@ -9,7 +9,10 @@ using System.Web.SessionState;
 namespace Webshop.Classes
 {
 
-        public class SessionControllerHandler : HttpControllerHandler, IRequiresSessionState
+    // Deze 2 classes maken het mogelijk om sessions te gebruiken in webservices.
+    // Zie http://www.wiliam.com.au/wiliam-blog/enabling-session-state-in-web-api
+
+    public class SessionControllerHandler : HttpControllerHandler, IRequiresSessionState
         {
             public SessionControllerHandler(RouteData routeData)
                 : base(routeData)
