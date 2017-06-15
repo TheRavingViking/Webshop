@@ -10,19 +10,38 @@
         <div class="col-sm-12 col-md-12 col-lg-12">
 
             <div class="col-sm-6 col-md-6 col-lg-6">
-                <form action="/Products/Sort" method="post">
-                    <div class="form-group">
-                        <label for="sortBy">Sort</label>
-                        <select class="form-control" id="sortBy" name="sortBy">
-                            <option>Name</option>
-                            <option>Price</option>
-                            <option>Quantity</option>
-                        </select>
-                    </div>
-                    <input class="btn btn-default" type="submit" value="Go" />
+
+                <div class="form-group">
+                    <label for="sortBy">Sort with Ajax</label>
+                    <select class="form-control" id="sortBy" name="sortBy">
+                        <option>Name</option>
+                        <option>Price</option>
+                        <option>Quantity</option>
+                    </select>
+                </div>
+                <input class="btn btn-default" onclick="SortProducts()" type="submit" value="Go" />
+
+
+            </div>
+            
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <form action="/Products/sort" method="post">
+                <div class="form-group">
+                    <label for="sortBy">Sort with Post</label>
+                    <select class="form-control" id="sortBy" name="sortBy">
+                        <option>Name</option>
+                        <option>Price</option>
+                        <option>Quantity</option>
+                    </select>
+                </div>
+                <input class="btn btn-default"  type="submit" value="Go" />
 
                 </form>
             </div>
+            
+            
+            
+            
 
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <form action="/Products/Filter" method="post">
@@ -49,7 +68,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
-            <table class="table table-hover" style="margin-top: 2em">
+            <table class="table table-hover" style="margin-top: 2em" id="ProductTable">
                 <thead>
                     <tr>
                         <th>@Html.DisplayNameFor(model => model.Name)</th>
@@ -96,9 +115,44 @@
 </div>
 
 
-<div id="bikes"></div>
+<div id="products"></div>
 
 <script type="text/javascript">
+
+    function SortProducts() {
+
+        var sort = $("#sortBy option:selected").text();
+
+        $.ajax({
+            url: '/Sort',
+            type: 'Get',
+            contentType: 'application/json',
+            data: { sortBy: sort },
+            success: function (data) {
+                console.log(data);
+                $('#products').html('');
+
+                $("#ProductTable").remove();
+
+                for (var i = 0; i < data.length; i++) {
+                    console.log(i, data[i]);
+                    var newdata = $('<div>');
+                    newdata.html(data[i].Name + " " + data[i].Price + " " + data[i].Quantity);
+                    $("#products").append(newdata);
+
+                }
+
+                $('#products').show('slow');
+            }
+        });
+    }
+
+
+
+
+
+
+
 
     function AddItem(id) {
 

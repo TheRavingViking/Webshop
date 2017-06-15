@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Webshop.Models
 {
@@ -25,11 +26,13 @@ namespace Webshop.Models
         public Nullable<System.DateTime> IsDeleted { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
 
+        [JsonIgnore]
         [Display(Name = "Category name")]
         public virtual Category Category { get; set; }
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-
+        [JsonIgnore]
         public virtual Supplier Supplier { get; set; }
     }
 }

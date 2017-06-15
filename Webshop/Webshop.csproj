@@ -165,6 +165,7 @@
     <Compile Include="Classes\ShopCart.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\ProductsAPIController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ShopCartAPIController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
