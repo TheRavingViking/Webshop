@@ -46,8 +46,22 @@ namespace Webshop.Controllers
             return products;
         }
 
+
+        [HttpGet]
+        [Route("Filter")]
+        public IQueryable Filter(int filterBy)
+        {
+            var catID = db.Categories.Find(filterBy);
+
+            var products = (from items in db.Products
+                            where items.Category.ID == catID.ID
+                            select items).Include(p => p.Category).Include(p => p.Supplier);
+
+            return products;
+        }
+
+
     }
 }
 
 
-        

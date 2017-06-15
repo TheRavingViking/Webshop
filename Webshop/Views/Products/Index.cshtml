@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
 
-            <div class="col-sm-6 col-md-6 col-lg-6">
+            <div class="col-sm-6 col-md-6 col-lg-3">
 
                 <div class="form-group">
                     <label for="sortBy">Sort with Ajax</label>
@@ -24,7 +24,7 @@
 
             </div>
             
-            <div class="col-sm-6 col-md-6 col-lg-6">
+            <div class="col-sm-6 col-md-6 col-lg-3">
                 <form action="/Products/sort" method="post">
                 <div class="form-group">
                     <label for="sortBy">Sort with Post</label>
@@ -43,10 +43,26 @@
             
             
 
-            <div class="col-sm-6 col-md-6 col-lg-6">
+            <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label for="filterBy">Filter with Ajax</label>
+                        <select class="form-control" id="filterBy" name="filterBy">
+                            @foreach (var cat in ViewBag.Categories)
+                            {
+                                <option value="@cat.ID">@cat.Name</option>
+                            }
+
+                        </select>
+                    </div>
+                    <input class="btn btn-default" onclick="Filter()" type="submit" value="Go" />
+
+            </div>
+            
+
+            <div class="col-sm-6 col-md-6 col-lg-3">
                 <form action="/Products/Filter" method="post">
                     <div class="form-group">
-                        <label for="filterBy">Filter</label>
+                        <label for="filterBy">Filter with Post</label>
                         <select class="form-control" id="filterBy" name="filterBy">
                             @foreach (var cat in ViewBag.Categories)
                             {
@@ -59,6 +75,7 @@
                 </form>
 
             </div>
+
 
         </div>
     </div>
@@ -108,14 +125,15 @@
 
 
             </table>
-
+            
+            <hr/>
+            <div id="products"></div>
 
         </div>
     </div>
 </div>
 
 
-<div id="products"></div>
 
 <script type="text/javascript">
 
@@ -137,7 +155,7 @@
                 for (var i = 0; i < data.length; i++) {
                     console.log(i, data[i]);
                     var newdata = $('<div>');
-                    newdata.html(data[i].Name + " " + data[i].Price + " " + data[i].Quantity);
+                    newdata.html("Product Name: " + data[i].Name + " Price: " + data[i].Price + " Quantity: " + data[i].Quantity).append("<hr>");
                     $("#products").append(newdata);
 
                 }
@@ -148,6 +166,34 @@
     }
 
 
+    function Filter() {
+
+        var filter = $("#filterBy option:selected").val();
+
+        $.ajax({
+            url: '/Filter',
+            type: 'Get',
+            contentType: 'application/json',
+            data: { filterBy: filter },
+            success: function (data) {
+                console.log(filter);
+                console.log(data);
+                $('#products').html('');
+
+                $("#ProductTable").remove();
+
+                for (var i = 0; i < data.length; i++) {
+                    console.log(i, data[i]);
+                    var newdata = $('<div>');
+                    newdata.html("Product Name: "+ data[i].Name + " Price: " + data[i].Price + " Quantity: " + data[i].Quantity).append("<hr>");
+                    $("#products").append(newdata);
+
+                }
+
+                $('#products').show('slow');
+            }
+        });
+    }
 
 
 
