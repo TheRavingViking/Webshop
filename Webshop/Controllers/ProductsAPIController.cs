@@ -21,8 +21,11 @@ namespace Webshop.Controllers
         [Route("Sort")]
         public IQueryable Sort(string sortBy)
         {
+            //default linq query
+
             var products = db.Products.Include(p => p.Category).Include(p => p.Supplier);
 
+            //get the corresponding query by input
             switch (sortBy)
             {
                 case "Name":
@@ -51,8 +54,10 @@ namespace Webshop.Controllers
         [Route("Filter")]
         public IQueryable Filter(int filterBy)
         {
+            //find category
             var catID = db.Categories.Find(filterBy);
 
+            //linq query based on catid
             var products = (from items in db.Products
                             where items.Category.ID == catID.ID
                             select items).Include(p => p.Category).Include(p => p.Supplier);

@@ -29,31 +29,30 @@ namespace Webshop.Controllers
             
        */
 
-
-
-
         [HttpGet]
         [Route("AddToCart")]
         public IHttpActionResult AddToCart(int id, int qty)
         {
+            //makes new shopcart item and sets values
             ShopCart item = new ShopCart();
             item.ID = id;
             item.Quantity = qty;
-
-
+            
+            //checks if cartlist is empty
             if (SessionManager.CartList == null)
             {
+                //makes new list to go into the session
                 List<ShopCart> shopCart = new List<ShopCart>();
                 shopCart.Add(item);
                 SessionManager.CartList = shopCart;
+                //add value to count
                 SessionManager.count = 1;
             }
             else
             {
+                //finds product in list and adds it to quantity
                 List<ShopCart> shopCart = SessionManager.CartList;
-
                 var product = shopCart.Find(c => c.ID == id);
-
                 if (product != null)
                 {
                     product.Quantity += item.Quantity;
@@ -64,7 +63,6 @@ namespace Webshop.Controllers
                     SessionManager.count = SessionManager.count + 1;
                 }
             }
-
             return Ok();
         }
 
@@ -74,14 +72,10 @@ namespace Webshop.Controllers
         public IHttpActionResult Delete(int id)
         {
             List<ShopCart> shopCart = SessionManager.CartList;
-
             var Item = shopCart.Find(c => c.ID == id);
             shopCart.Remove(Item);
-
             SessionManager.CartList = shopCart;
-
             SessionManager.count = SessionManager.count - 1;
-
             return Ok();
 
         }
@@ -93,18 +87,16 @@ namespace Webshop.Controllers
         {
             List<ShopCart> shopCart = SessionManager.CartList;
 
+            //finds item and removes it
             var Item = shopCart.Find(c => c.ID == id);
             shopCart.Remove(Item);
 
+            //adds new item with updated quantity
             ShopCart newItem = new ShopCart();
-
             newItem.ID = id;
             newItem.Quantity = qty;
-
             shopCart.Add(newItem);
-
             SessionManager.CartList = shopCart;
-
             return Ok();
         }
     }

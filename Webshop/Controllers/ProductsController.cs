@@ -28,8 +28,10 @@ namespace Webshop.Controllers
 
         public ActionResult Sort(string sortBy)
         {
+            //default linq query
             var products = db.Products.Include(p => p.Category).Include(p => p.Supplier);
 
+            //get the corresponding query by input
             switch (sortBy)
             {
                 case "Name":
@@ -51,6 +53,7 @@ namespace Webshop.Controllers
 
             }
 
+            //makes a viewbag for catagories dropdown
             var category = db.Categories.Distinct();
             ViewBag.Categories = category;
 
@@ -61,14 +64,15 @@ namespace Webshop.Controllers
         public ActionResult Filter(int filterBy)
         {
 
-
+            //finds category
             var catID = db.Categories.Find(filterBy);
 
-
+            //linq query based on catid
             var products = (from items in db.Products
                             where items.Category.ID == catID.ID
                             select items).Include(p => p.Category).Include(p => p.Supplier);
 
+            //makes a viewbag for catagories dropdown
             var category = db.Categories.Distinct();
             ViewBag.Categories = category;
 
