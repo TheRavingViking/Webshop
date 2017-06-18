@@ -27,36 +27,54 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Customer.FirstName)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Customer.FirstName)
+            @Html.DisplayFor(model => model.Customer.LastName)
         </dd>
 
     </dl>
 </div>
 
-@foreach (var orderdetail in Model.OrderDetails)
-{
-    @orderdetail.Product.Name
-    @orderdetail.Quantity
-    @orderdetail.Price
 
-}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <table class="table table-hover" style="margin-top: 2em" id="ProductTable">
+                <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Category</th>
+                    <th class="text-center">Supplier</th>
+                    <th class="text-center"> Order Quantity </th>
+                </tr>
+                </thead>
+                <tbody>
 
-
-
+                @foreach (var item in Model.OrderDetails)
+                {
+                    <tr>
+                        <td class="col-sm-4 col-md-4 col-lg-4">
+                            <a class="thumbnail pull-left" href="../Products/Products/Details/@item.ProductID"> <img class="img-rounded" src="http://placegoat.com/72/72" style="width: 100px; height: 100px;"> </a>
+                            <div class="media-body">
+                                <h4 class="media-heading" style="padding-left: 15px"><a href="../Products/Products/Details/@item.ProductID"> @Html.DisplayFor(modelItem => item.Product.Name) </a></h4>
+                                <h5 class="media-heading" style="padding-left: 15px"> ID @Html.DisplayFor(modelItem => item.ProductID)</h5>
+                            </div>
+                        </td>
+                        <td class="text-center col-sm-1 col-md-1 col-lg-1"><strong>€ @Html.DisplayFor(modelItem => item.Price)</strong></td>
+                        <td class="text-center col-sm-2 col-md-2 col-lg-2 "><strong> @Html.DisplayFor(modelItem => item.Product.Category.Name)</strong></td>
+                        <td class="text-center col-sm-1 col-md-1 col-lg-1"><strong> @Html.DisplayFor(modelItem => item.Product.Supplier.Name)</strong></td>
+                        <td><input class="form-control col-sm-1 col-md-1 col-lg-1" type="number" id="@item.ProductID" value="1" name="Quantity" disabled="disabled"/></td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
