@@ -44,6 +44,18 @@
 
     </dl>
 </div>
+
+@foreach (var orderdetail in Model.OrderDetails)
+{
+    @orderdetail.Product.Name
+    @orderdetail.Quantity
+    @orderdetail.Price
+
+}
+
+
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
