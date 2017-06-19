@@ -159,6 +159,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Classes\Customers.partial.cs" />
+    <Compile Include="Classes\Orders.partial.cs" />
     <Compile Include="Classes\Product.partial.cs" />
     <Compile Include="Classes\SessionControllerHandler.cs" />
     <Compile Include="Classes\SessionManager.cs" />

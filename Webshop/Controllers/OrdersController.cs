@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using WebGrease.Css.Extensions;
 using Webshop.Classes;
 using Webshop.Models;
 
@@ -20,6 +21,10 @@ namespace Webshop.Controllers
         public ActionResult Index()
         {
             var orders = db.Orders.Include(o => o.Customer);
+
+            var names = db.Customers.Distinct();
+            ViewBag.Customers = names;
+
             return View(orders.ToList());
         }
 
@@ -37,6 +42,30 @@ namespace Webshop.Controllers
             }
             return View(order);
         }
+
+
+        public ActionResult Filter(int filterBy)
+        {
+            //finds customerID
+            var customerID = db.Customers.Find(filterBy);
+
+            //linq query based on customerID
+            var orders = (from order in db.Orders
+                where order.CustomerID == customerID.ID
+                select order);
+            
+            //makes a viewbag for catagories dropdown
+            var names = db.Customers.Distinct();
+            ViewBag.Customers = names;
+
+            return View("Index", orders.ToList());
+
+        }
+
+
+
+
+
 
         // GET: Orders/Create
         public ActionResult Create()

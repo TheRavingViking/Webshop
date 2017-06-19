@@ -4,9 +4,21 @@
     ViewBag.Title = "Index";
 }
 
-<p>
-    
-</p>
+<div style="margin-top: 2em">
+    <form action="/Orders/Filter" method="post">
+        <div class="form-group">
+            <label for="filterBy">Filter Orders</label>
+            <select class="form-control" id="filterBy" name="filterBy">
+                @foreach (var customer in ViewBag.Customers)
+                {
+                    <option value="@customer.ID">@customer.FirstName @customer.LastName</option>
+                }
+
+            </select>
+        </div>
+        <input class="btn btn-default" type="submit" value="Go" />
+    </form>
+</div>
 
 <table class="table">
     <tr>
@@ -17,27 +29,29 @@
             @Html.DisplayNameFor(model => model.ShipAdress)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.FirstName) 
-            @Html.DisplayNameFor(model => model.Customer.LastName) 
+            Name
         </th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShipAdress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Customer.FirstName)
-            @Html.DisplayFor(modelItem => item.Customer.LastName)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShipAdress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.FirstName)
+                    @Html.DisplayFor(modelItem => item.Customer.LastName)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.ID })
+                </td>
+            </tr>
+        }
+    }
 
 </table>

@@ -23,14 +23,17 @@ namespace Webshop.Models
         public Nullable<int> SupplierID { get; set; }
         public Nullable<int> CategoryID { get; set; }
         public byte[] Image { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        [Display(Name = "Deleted")]
         public Nullable<System.DateTime> IsDeleted { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        [Display(Name = "Created")]
         public Nullable<System.DateTime> CreatedAt { get; set; }
 
         [JsonIgnore]
         [Display(Name = "Category name")]
         public virtual Category Category { get; set; }
         [JsonIgnore]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         [JsonIgnore]
         public virtual Supplier Supplier { get; set; }
